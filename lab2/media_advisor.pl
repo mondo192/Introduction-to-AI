@@ -30,6 +30,15 @@ stimulus_situation(symbolic) :-
     envirnoment(formulas);
     envirnoment('computer programs').
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Custom: 1
+stimulus_situation(musician) :-
+	envirnoment(live);
+	envirnoment(studio).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Rule: 5
 stimulus_response(oral) :-
     job(lecturing);
@@ -53,6 +62,17 @@ stimulus_response(analytical) :-
     job(evaluating);
     job(reasoning);
     job(investigating).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Custom: 2
+stimulus_response(entertainment) :-
+	job(bassist);
+	job(drummer);
+	job(guitarist);
+	job(singer).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Rule: 9
 medium(workshop) :-
@@ -89,6 +109,16 @@ medium('role play exercises') :-
     stimulus_situation(verbal),
     stimulus_response(oral),
     feedback(yes).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Custom: 3
+medium('concert') :-
+	stimulus_situation(musician),
+	stimulus_response(entertainment),
+	feedback(yes).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % 3 inputs required: 1 environment 2 job, 3 feedback yes/no
 go :-
