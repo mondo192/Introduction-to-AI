@@ -120,6 +120,13 @@ medium('concert') :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Custom: 4
+medium('computer science') :-
+	stimulus_situation(symbolic),
+	stimulus_response('hands-on'),
+	feedback(yes).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 3 inputs required: 1 environment 2 job, 3 feedback yes/no
 go :-
     getEnvirnoment,
