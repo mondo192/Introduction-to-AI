@@ -1,4 +1,5 @@
-% Farmer Wolf and Goat Problem using Prolog
+% Farmer Wolf and Goat Problem using Prolog 
+% https://www.cs.unm.edu/~luger/ai-final/code/PROLOG.fwgc.html
 % Execute as go(state(w,w,w,w), state(e,e,e,e)).
 
 go(Start, Goal) :-
