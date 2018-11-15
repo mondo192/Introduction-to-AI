@@ -1,0 +1,53 @@
+gratco - prolog book
+articfical ruseel and nordy - defintive ai book
+
+propoitional and predicate calculus
+	use for knowledge representation and reasoning in AI
+
+reasoning / logical inference
+	modus ponens
+
+predicates have variables in them, propositions are current states of the world
+p.
+p => q. if p is false q is false because it couldnt exist
+
+
+modens tollens
+
+p => q
+¬q (not q)
+
+infer ¬p
+
+
+a = true
+b = true
+a, b = true
+r
+a.
+b.
+a, b.
+
+
+a. true
+b. true
+a ; b. is true 
+
+
+can combine inference rules with unification to prove or infer things.
+
+1.for all X (human(X) => has_2_legs(X)).
+
+in prolog code
+has_2_legs(X) :-
+	human(X).
+
+2. human(john).
+
+unify x/john in rule to get
+3. human(john) => has_2_legs(john).
+
+using modus ponnens on 2 & 3
+
+for all X (pred(X) -> pred2(X)).
+for all P (P(john)-> P(mary)). not allowed cant use predicatescd
