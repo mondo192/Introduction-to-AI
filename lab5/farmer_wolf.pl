@@ -1,68 +1,61 @@
-% Farmer Wolf and Goat Problem using Prolog 
-% https://www.cs.unm.edu/~luger/ai-final/code/PROLOG.fwgc.html
-% Execute as go(state(w,w,w,w), state(e,e,e,e)).
-
-go(Start, Goal) :-
-	empty_stack(Empty),
-	stack(Start, Empty, Stack),
-	path(Start, Goal, Stack).
-
-path(Goal, Goal, Stack) :-
-	write('Solution path is: '), nl,
-	reverse_print_stack(Stack).
-
-path(State, Goal, Stack) :-
-	move(State, Next),
-	not(member_stack(Next, Stack)),
-	stack(Next, Stack, New_Stack),
-	path(Next, Goal, New_Stack),
-	!.
-
-move(state(X,X,G,C), state(Y,Y,G,C)) :-
-	opp(X,Y),
-	not(unsafe(state(Y,Y,G,C))),
-	writelist(['try farmer takes wolf', Y,Y,G,C]).
-
-move(state(X,W,X,C), state(Y,W,Y,C)) :-
-	opp(X,Y),
-	not(unsafe(state(Y,W,Y,C))),
-	writelist(['try farmer takes goat', Y,W,Y,C]).
-
-move(state(X,W,G,X), state(Y,W,G,Y)) :-
-	opp(X,Y),
-	not(unsafe(Y,W,G,Y))),
-	writelist(['try farmer takes cabbage', Y,W,G,Y]).
-
-move(state(X,W,G,C), state(Y,W,G,C)) :-
-	opp(X,Y),
-	not(unsafe(state(Y,W,G,C))),
-	writelist(['try farmer takes self', Y,W,G,C]).
-
-move(state(F,W,G,C), state(F,W,G,C)) :-
-	writelist(['BACKTRACK from: ', F,W,G,C]),
-	fail.
-
-unsafe(state(X,Y,Y,C)) :- 
-	opp(X,Y).
-
-unsafe(state(X,W,Y,Y)) :-
-	opp(X,Y).
-
-writelist([]) :-
-	nl.
-
-writelist([H|T]) :-
-	print(H), 
-	tab(1),
-	writelist(T).
-
 opp(e,w).
 opp(w,e).
 
-reverse_print_stack(S) :-
-	empty_stack(S).
+unsafe(F,X,X,C) :- opp(F,X).
+unsafe(F,W,X,X) :- opp(F,X).
 
-reverse_print_stack(S) :-
-	stack(E, Rest, S),
-	reverse_print_stack(Rest),
-	write(E), nl.
+% move(State1, State2).
+
+% move the wolf
+move(state(X,X,G,C), state(Y,Y,G,C)) :- 
+    opp(X,Y), 
+    not(unsafe(Y,Y,G,C)).
+
+
+% move the goat
+move(state(X,W,X,C), state(Y,W,Y,C)) :- 
+    opp(X,Y), 
+    not(unsafe(Y,W,Y,C)).
+
+
+% move the cabbage
+move(state(X,W,G,X), state(Y,W,G,Y)) :- opp(X,Y), not(unsafe(Y,W,G,Y)).
+
+% move self only
+move(state(X,W,G,C), state(Y,W,G,C)) :- opp(X,Y), not(unsafe(Y,W,G,C)).
+
+solve(Goal, Goal, List) :- showPath(List).
+
+solve(State, Goal, List) :-
+	move(State, NextState),
+	not(member(NextState, List)),
+	solve(NextState, Goal, [NextState | List]),
+	showPath([NextState | List]), !.
+
+% Pretty printing code for FWGC solution path and states.
+% showPath(Path)
+showPath([]) :- nl.
+
+showPath([S|Path]) :- 
+    nl,showState(S),
+    showPath(Path).
+
+
+showState(S) :-
+    showWest(S), write('|~~~~~~~|'), showEast(S),nl,
+    write('    |~~~~~~~|').
+
+showWest(state(F,W,G,C)) :-
+    (F == w, write('F'), !; write(' ')),
+    (W == w, write('W'), !; write(' ')),
+    (G == w, write('G'), !; write(' ')),
+    (C == w, write('C'), !; write(' ')).
+
+showEast(state(F,W,G,C)) :-
+    (F == e, write('F'), !; true),
+    (W == e, write('W'), !; true),
+    (G == e, write('G'), !; true),
+    (C == e, write('C'), !; true).
+
+go :-
+	solve(state(e,e,e,e), state(w,w,w,w), [state(e,e,e,e)]).
